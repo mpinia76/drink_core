@@ -55,17 +55,18 @@ class DrinkUtils {
 	const DRINK_CONCEPTO_MOVIMIENTO_ANULACIONCOMISIONVENTA= 10;
 	const DRINK_CONCEPTO_MOVIMIENTO_PEDIDO= 11;
 	const DRINK_CONCEPTO_MOVIMIENTO_ANULACIONPEDIDO= 12;
-	
+
 
 
 	const DRINK_CUENTA_UNICA = 1;
 
 	const DRINK_CAJA_DEFAULT = 1;
-	
+
 	const DRINK_CLIENTE_DEFAULT = 1;
-	
+
 	const DRINK_VENDEDOR_DEFAULT = 1;
-	
+    const DRINK_VENDEDOR_MELISA = 2;
+
 	const DRINK_PROVEEDOR_DEFAULT = 1;
 
 	const DRINK_ID_DOLAR = 1;
@@ -79,7 +80,7 @@ class DrinkUtils {
 		$usergroup = new Usergroup();
 		$usergroup->setOid(self::USERGROUP_ADMIN);
 		return $user->hasUsergroup( $usergroup );
-			
+
 	}
 
 	/**
@@ -97,7 +98,7 @@ class DrinkUtils {
 		if( $monto < 0 ){
 			$res = $res * (-1);
 		}
-			
+
 		$res = number_format ( $res ,  self::DECIMALES , self::SEPARADOR_DECIMAL, self::SEPARADOR_MILES );
 
 
@@ -309,7 +310,7 @@ class DrinkUtils {
 	public static function isSameDay( $dt_date, $dt_another){
 
 		return $dt_date->format("Ymd") == $dt_another->format("Ymd");
-			
+
 		/*
 		 $dt_dateAux = strtotime ( $dt_date ) ;
 		 $dt_dateAux = date ( "Ymd" , $dt_dateAux );
@@ -346,13 +347,13 @@ class DrinkUtils {
 		$duracion = 15;
 		$i=0;
 		while( $i<97 ){
-				
+
 			$items[$desde->format("H:i")] = $desde->format("H:i");
-				
+
 			$desde->modify("+$duracion minutes");
-				
+
 			$i++;
-				
+
 		}
 
 		return $items;
@@ -375,9 +376,9 @@ class DrinkUtils {
 		$fechaNac = $fecha;
 
 		if ($fechaNac != null ){
-				
+
 			$hoy = new \DateTime();
-				
+
 			$dia = $hoy->format("d");
 			$mes = $hoy->format("m");
 			$anio = $hoy->format("Y");
@@ -386,7 +387,7 @@ class DrinkUtils {
 			$dia_nac = $fechaNac->format("d");
 			$mes_nac = $fechaNac->format("m");
 			$anio_nac = $fechaNac->format("Y");
-				
+
 			//si el mes es el mismo pero el día inferior aun no ha cumplido años, le quitaremos un año al actual
 
 			if (($mes_nac == $mes) && ($dia_nac > $dia)) {
@@ -498,7 +499,7 @@ class DrinkUtils {
 	public static function formatMessage($msg, $params){
 
 		if(!empty($params)){
-				
+
 			$count = count ( $params );
 			$i=1;
 			while ( $i <= $count ) {
@@ -508,7 +509,7 @@ class DrinkUtils {
 
 				$i ++;
 			}
-				
+
 		}
 		return $msg;
 
@@ -527,11 +528,11 @@ class DrinkUtils {
 
 		$f = new \Datetime();
 		$f->setTimestamp( $fecha->getTimestamp() );
-		 
+
 		//si es lunes, no hacemos nada, sino, buscamos el lunes anterior.
 		if( $f->format("N") > 1 )
 		$f->modify("last monday");
-		 
+
 		return $f;
 	}
 
@@ -541,11 +542,11 @@ class DrinkUtils {
 		$f = new \Datetime();
 		$f->setTimestamp( $fecha->getTimestamp() );
 		$f->modify("next monday");
-		 
+
 		//si no es lunes, restamos un día.
 		if( $fecha->format("N") > 1 )
 		$f->sub(new \DateInterval('P1D'));
-		 
+
 		return $f;
 	}
 
@@ -564,7 +565,7 @@ class DrinkUtils {
 		$f = self::getFirstDayOfMonth($fecha);
 		$f->modify("+1 month");
 		$f->modify("-1 day");
-		 
+
 		return $f;
 	}
 
@@ -582,7 +583,7 @@ class DrinkUtils {
 		$f = self::getFirstDayOfYear($fecha);
 		$f->modify("+1 year");
 		$f->modify("-1 day");
-		 
+
 		return $f;
 	}
 
@@ -604,7 +605,7 @@ class DrinkUtils {
 		require_once($libsHome . "/mailer/class.phpmailer.php");
 		require_once($libsHome . "/mailer/class.smtp.php");*/
 
-		
+
 
 		/*require 'path/to/PHPMailer/src/Exception.php';
 		require 'path/to/PHPMailer/src/PHPMailer.php';
@@ -624,16 +625,16 @@ class DrinkUtils {
 		$mail->SMTPOptions = array(
 
 			'ssl' => array(
-		
+
 				'verify_peer' => false,
-		
+
 				'verify_peer_name' => false,
-		
+
 				'allow_self_signed' => true
-		
+
 			)
-		
-		);	
+
+		);
 
 		$mail->isSMTP();
 		//Enable SMTP debugging
@@ -683,7 +684,7 @@ class DrinkUtils {
 		}
 
 
-		 
+
 		if (!$mail->send()){
 			self::log("Ocurrió un error en el envío del mail a $nameTo <$to>") ;
 			//throw new GenericException("Ocurrió un error en el envío del mail a $nameTo <$to>");
@@ -699,8 +700,8 @@ class DrinkUtils {
 
 	public static function sendMail($nameTo, $to, $subject, $msg, $attachs) {
 
-		 
-		 
+
+
 		if (DrinkConfig::MAIL_ENVIO_POP)
 		self::sendMailPop($nameTo, $to, $subject, $msg, $attachs);
 		else {
@@ -781,7 +782,7 @@ class DrinkUtils {
 
 		return ServiceFactory::getConceptoMovimientoService()->get( self::DRINK_CONCEPTO_MOVIMIENTO_DEVOLUCION);
 	}
-	
+
 	public static function getConceptoMovimientoActualizacion(){
 
 		return ServiceFactory::getConceptoMovimientoService()->get( self::DRINK_CONCEPTO_MOVIMIENTO_ACTUALIZACION);
@@ -791,12 +792,12 @@ class DrinkUtils {
 
 		return ServiceFactory::getConceptoMovimientoService()->get( self::DRINK_CONCEPTO_MOVIMIENTO_COMISIONVENTA);
 	}
-	
+
 	public static function getConceptoMovimientoAnulacionComisionVenta(){
 
 		return ServiceFactory::getConceptoMovimientoService()->get( self::DRINK_CONCEPTO_MOVIMIENTO_ANULACIONCOMISIONVENTA);
 	}
-	
+
 	public static function getConceptoMovimientoPedido(){
 
 		return ServiceFactory::getConceptoMovimientoService()->get( self::DRINK_CONCEPTO_MOVIMIENTO_PEDIDO );
@@ -806,7 +807,7 @@ class DrinkUtils {
 
 		return ServiceFactory::getConceptoMovimientoService()->get( self::DRINK_CONCEPTO_MOVIMIENTO_ANULACIONPEDIDO );
 	}
-	
+
 
 	public static function getCuentaUnica(){
 
@@ -837,7 +838,7 @@ class DrinkUtils {
 
 		return ServiceFactory::getMarcaProductoService()->get( self::DRINK_MARCA_PRODUCTO_DEFAULT );
 	}
-	
+
 	public static function getClienteDefault(){
 
 		return ServiceFactory::getClienteService()->get( self::DRINK_CLIENTE_DEFAULT );

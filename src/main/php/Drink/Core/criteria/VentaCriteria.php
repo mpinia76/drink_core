@@ -5,7 +5,7 @@ use Cose\criteria\impl\Criteria;
 
 /**
  * criteria de venta
- *  
+ *
  * @author Marcos
  * @since 12-03-2018
  *
@@ -15,29 +15,45 @@ class VentaCriteria extends Criteria{
 	private $fecha;
 
 	private $fechaDesde;
-	
+
 	private $fechaHasta;
 
-	
-	
+    private $user;
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
 	private $cliente;
-	
-	
-	
+
+
+
 	private $estados;
-	
+
 	private $estadoNotEqual;
-	
+
 	private $estado;
-	
+
 	private $observaciones;
-	
+
 	private $mes;
-	
+
 	private $year;
-	
+
 	private $vendedor;
-	
+
 	public function getFecha()
 	{
 	    return $this->fecha;
@@ -88,7 +104,7 @@ class VentaCriteria extends Criteria{
 	    $this->cliente = $cliente;
 	}
 
-	
+
 
 	public function getEstados()
 	{
@@ -129,7 +145,7 @@ class VentaCriteria extends Criteria{
 	{
 	    $this->observaciones = $observaciones;
 	}
-	
+
 	public function getMes()
 	{
 	    return $this->mes;
@@ -139,7 +155,7 @@ class VentaCriteria extends Criteria{
 	{
 	    $this->mes = $mes;
 	}
-	
+
 	public function getYear()
 	{
 	    return $this->year;

@@ -32,9 +32,10 @@ class VentaDoctrineDAO extends CrudDAO implements IVentaDAO{
 
 		$queryBuilder = $this->getEntityManager()->createQueryBuilder();
 
-		$queryBuilder->select(array('v', 'c', 've'))
+		$queryBuilder->select(array('v', 'c', 've', 'u'))
 	   				->from( $this->getClazz(), "v")
 					->leftJoin('v.vendedor', 've')
+                    ->leftJoin('v.user', 'u')
 					->leftJoin('v.cliente', 'c');
 
 		return $queryBuilder;
@@ -46,7 +47,7 @@ class VentaDoctrineDAO extends CrudDAO implements IVentaDAO{
 
 		$queryBuilder->select('count(v.oid)')
 	   				->from( $this->getClazz(), "v")
-
+                    ->leftJoin('v.user', 'u')
 					->leftJoin('v.vendedor', 've')
 					->leftJoin('v.cliente', 'c');
 
@@ -87,6 +88,17 @@ class VentaDoctrineDAO extends CrudDAO implements IVentaDAO{
 			else $queryBuilder->andWhere( "c.nombre like '%$cliente%'");
 
 		}
+
+        $user = $criteria->getUser();
+        if( !empty($user) && $user!=null){
+            if (is_object($user)) {
+                $userOid = $user->getOid();
+                if(!empty($userOid))
+                    $queryBuilder->andWhere( "u.oid= $userOid" );
+            }
+            else $queryBuilder->andWhere( "u.username like '%$user%'");
+
+        }
 
 		$vendedor = $criteria->getVendedor();
 		if( !empty($vendedor) && $vendedor!=null){
