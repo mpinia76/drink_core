@@ -205,6 +205,24 @@ class VentaServiceImpl extends CrudService implements IVentaService {
 		$movimiento->setConcepto( DrinkUtils::getConceptoMovimientoVenta() );
 		$movimiento->setUser($user);
 
+		if ($user->getUsername()=='melisa'){
+		    $formaPago=($cuenta->getOid()==1)?'Efectivo':'Tarjeta';
+		    $estado='';
+            switch ($venta->getEstado()) {
+                case '1':
+                    $estado = 'Impaga';
+                    break;
+
+                case '2':
+                    $estado = 'Paga parcialmente';
+                    break;
+                case '3':
+                    $estado = 'Pagada';
+                    break;
+            }
+            DrinkUtils::send_whatsapp($user->getUsername().' cobró la venta '.$venta->getOid().'\nCliente: '.$venta->getCliente()->getNombre().'\nMonto: '.DrinkUtils::formatMontoToView($venta->getMonto()).'\nForma de pago: '.$formaPago.'\nEstado: '.$estado.'\nObservaciones: '.$venta->getObservaciones());
+        }
+
 		ServiceFactory::getMovimientoVentaService()->add( $movimiento );
 
 	}
@@ -550,6 +568,23 @@ class VentaServiceImpl extends CrudService implements IVentaService {
 		//$movimiento->setCaja($caja);
 		$movimiento->setConcepto( DrinkUtils::getConceptoMovimientoVenta() );
 		$movimiento->setUser($user);
+
+        if ($user->getUsername()=='melisa'){
+            $estado='';
+            switch ($venta->getEstado()) {
+                case '1':
+                    $estado = 'Impaga';
+                    break;
+
+                case '2':
+                    $estado = 'Paga parcialmente';
+                    break;
+                case '3':
+                    $estado = 'Pagada';
+                    break;
+            }
+            DrinkUtils::send_whatsapp($user->getUsername().' cobró la venta '.$venta->getOid().'\nCliente: '.$venta->getCliente()->getNombre().'\nMonto: '.DrinkUtils::formatMontoToView($venta->getMonto()).'\nForma de pago: Cta. Cte.\nEstado: '.$estado.'\nObservaciones: '.$venta->getObservaciones());
+        }
 
 		ServiceFactory::getMovimientoVentaService()->add( $movimiento );
 

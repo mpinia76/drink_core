@@ -75,6 +75,9 @@ class DrinkUtils {
 	const DRINK_TIPO_PRODUCTO_DEFAULT = 21;
 	const DRINK_MARCA_PRODUCTO_DEFAULT = 24;
 
+    const PHONE_WHATSAPP ='+5492215701741';
+    const API_KEY_WHATSAPP ='619127';
+
 	public static function isAdmin( User $user ){
 
 		$usergroup = new Usergroup();
@@ -843,5 +846,28 @@ class DrinkUtils {
 
 		return ServiceFactory::getClienteService()->get( self::DRINK_CLIENTE_DEFAULT );
 	}
+
+    public static function send_whatsapp($message="Test"){
+        $phone=self::PHONE_WHATSAPP;  // Enter your phone number here
+        $apikey=self::API_KEY_WHATSAPP;       // Enter your personal apikey received in step 3 above
+
+        $url='https://api.callmebot.com/whatsapp.php?source=php&phone='.$phone.'&text='.urlencode($message).'&apikey='.$apikey;
+
+        if($ch = curl_init($url))
+        {
+            curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            $html = curl_exec($ch);
+            $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            // echo "Output:".$html;  // you can print the output for troubleshooting
+            curl_close($ch);
+            return (int) $status;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 
 }
