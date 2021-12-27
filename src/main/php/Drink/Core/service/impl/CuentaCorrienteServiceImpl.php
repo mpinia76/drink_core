@@ -192,8 +192,8 @@ class CuentaCorrienteServiceImpl extends CrudService implements ICuentaCorriente
 		$movimiento->setCuenta($destino);
 		$movimiento->setConcepto( DrinkUtils::getConceptoMovimientoPago() );
 		$movimiento->setUser($user);
-
-        if ($user->getUsername()=='melisa'){
+        if(!DrinkUtils::isAdmin($user)){
+        //if ($user->getUsername()=='melisa'){
 
             DrinkUtils::send_whatsapp($user->getUsername().' cobró la cta. cte. de '.$pago->getCliente()->getNombre().'\nMonto: '.DrinkUtils::formatMontoToView($pago->getMonto()).'\nObservaciones: '.$pago->getObservaciones());
         }

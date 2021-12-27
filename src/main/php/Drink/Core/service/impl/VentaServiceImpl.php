@@ -204,8 +204,8 @@ class VentaServiceImpl extends CrudService implements IVentaService {
 
 		$movimiento->setConcepto( DrinkUtils::getConceptoMovimientoVenta() );
 		$movimiento->setUser($user);
-
-		if ($user->getUsername()=='melisa'){
+        if(!DrinkUtils::isAdmin($user)){
+		//if ($user->getUsername()=='melisa'){
 		    $formaPago=($cuenta->getOid()==1)?'Efectivo':'Tarjeta';
 		    $estado='';
             switch ($venta->getEstado()) {
@@ -569,7 +569,8 @@ class VentaServiceImpl extends CrudService implements IVentaService {
 		$movimiento->setConcepto( DrinkUtils::getConceptoMovimientoVenta() );
 		$movimiento->setUser($user);
 
-        if ($user->getUsername()=='melisa'){
+        if(!DrinkUtils::isAdmin($user)){
+        //if ($user->getUsername()=='melisa'){
             $estado='';
             switch ($venta->getEstado()) {
                 case '1':
