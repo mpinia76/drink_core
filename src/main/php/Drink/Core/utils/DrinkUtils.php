@@ -120,6 +120,17 @@ class DrinkUtils {
 		return $res;
 	}
 
+	/**
+	 * formatea un monto para el texto de WhatsApp.
+	 * Le agrega ".-" al final para que la app de mensajes no lo detecte
+	 * como un numero de telefono y lo muestre cortado/como enlace.
+	 * @param $monto
+	 * @return string
+	 */
+	public static function formatMontoToWhatsapp( $monto ){
+		return self::formatMontoToView( $monto ) . '.-';
+	}
+
 
 	//Formato fecha yyyy-mm-dd
 	public static function differenceBetweenDates($fecha_fin, $fecha_Ini, $formato_salida = "d") {
@@ -861,10 +872,12 @@ class DrinkUtils {
             $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             // echo "Output:".$html;  // you can print the output for troubleshooting
             curl_close($ch);
+            self::log("Estado del envío a Whatsapp ".$status." Mensaje: ".$message." Output:".$html) ;
             return (int) $status;
         }
         else
         {
+            self::log("Error del init del curl del envío a Whatsapp Mensaje: ".$message) ;
             return false;
         }
     }

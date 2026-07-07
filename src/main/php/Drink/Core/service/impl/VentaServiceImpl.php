@@ -220,7 +220,7 @@ class VentaServiceImpl extends CrudService implements IVentaService {
                     $estado = 'Pagada';
                     break;
             }
-            DrinkUtils::send_whatsapp($user->getUsername().' cobró la venta '.$venta->getOid().'\nCliente: '.$venta->getCliente()->getNombre().'\nMonto: '.DrinkUtils::formatMontoToView($venta->getMonto()).'\nForma de pago: '.$formaPago.'\nEstado: '.$estado.'\nObservaciones: '.$venta->getObservaciones());
+            DrinkUtils::send_whatsapp($user->getUsername().' cobró la venta '.$venta->getOid().'\nCliente: '.$venta->getCliente()->getNombre().'\nMonto: '.DrinkUtils::formatMontoToWhatsapp($venta->getMonto()).'\nForma de pago: '.$formaPago.'\nEstado: '.$estado.'\nObservaciones: '.$venta->getObservaciones());
         }
 
 		ServiceFactory::getMovimientoVentaService()->add( $movimiento );
@@ -584,7 +584,7 @@ class VentaServiceImpl extends CrudService implements IVentaService {
                     $estado = 'Pagada';
                     break;
             }
-            DrinkUtils::send_whatsapp($user->getUsername().' cobró la venta '.$venta->getOid().'\nCliente: '.$venta->getCliente()->getNombre().'\nMonto: '.DrinkUtils::formatMontoToView($venta->getMonto()).'\nForma de pago: Cta. Cte.\nEstado: '.$estado.'\nObservaciones: '.$venta->getObservaciones());
+            DrinkUtils::send_whatsapp($user->getUsername().' cobró la venta '.$venta->getOid().'\nCliente: '.$venta->getCliente()->getNombre().'\nMonto: '.DrinkUtils::formatMontoToWhatsapp($venta->getMonto()).'\nForma de pago: Cta. Cte.\nEstado: '.$estado.'\nObservaciones: '.$venta->getObservaciones());
         }
 
 		ServiceFactory::getMovimientoVentaService()->add( $movimiento );
