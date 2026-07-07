@@ -75,8 +75,8 @@ class DrinkUtils {
 	const DRINK_TIPO_PRODUCTO_DEFAULT = 21;
 	const DRINK_MARCA_PRODUCTO_DEFAULT = 24;
 
-    const PHONE_WHATSAPP ='+5492215701741';
-    const API_KEY_WHATSAPP ='619127';
+    const PHONE_WHATSAPP ='+5492494558058';
+    const API_KEY_WHATSAPP ='594785';
 
 	public static function isAdmin( User $user ){
 
